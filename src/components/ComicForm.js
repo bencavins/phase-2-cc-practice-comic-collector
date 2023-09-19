@@ -1,7 +1,27 @@
-function ComicForm() {
+function ComicForm({ setComics }) {
+  function handleSubmit(event) {
+    event.preventDefault()
+
+    const newComic = {
+      "title": event.target.title.value,
+      "issue": event.target.issue.value,
+      "image_url": event.target.image_url.value
+    }
+
+    fetch("http://localhost:8004/comics", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newComic)
+    })
+
+    setComics(prevComics => [...prevComics, newComic])
+  }
+
   return (
 
-    <form className="comic-form">
+    <form className="comic-form" onSubmit={handleSubmit}>
 
       <h2>Add A New Issue</h2>
 
